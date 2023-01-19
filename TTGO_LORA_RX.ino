@@ -51,27 +51,27 @@ void setup() {
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3c, false, false)) { // Address 0x3C for 128x32
     Serial.println(F("SSD1306 allocation failed"));
     while(1)
-      ; // Don't proceed, loop forever
+      ; // loop forever
   }
 
   display.clearDisplay();
   display.setTextColor(WHITE);
   display.setTextSize(1);
   display.setCursor(0,0);
-  display.print("LORA RECEIVER ");
+  display.print("LORA receiver ");
   display.display();
 
   Serial.println("LoRa Receiver Test");
 
-  //SPI LoRa pins
+  // SPI LoRa pins
   SPI.begin(SCK, MISO, MOSI, SS);
-  //setup LoRa transceiver module
+  // setup LoRa transceiver module
   LoRa.setPins(SS, RST, DIO0);
 
   if (!LoRa.begin(BAND)) {
     Serial.println("Starting LoRa RX failed!");
     while (1)
-      ;
+      ; // loop forever
   }
   Serial.println("LoRa RX Initializing OK!");
   display.setCursor(0,10);
@@ -81,19 +81,19 @@ void setup() {
 
 void loop() {
 
-  //try to parse packet
+  // try to parse packet
   int packetSize = LoRa.parsePacket();
   if (packetSize) {
-    //received a packet
+    // received a packet
     Serial.print("Received packet ");
 
-    //read packet
+    // read packet
     while (LoRa.available()) {
       LoRaData = LoRa.readString();
       Serial.print(LoRaData);
     }
 
-    //print RSSI of packet
+    // print RSSI of packet
     int rssi = LoRa.packetRssi();
     Serial.print(" with RSSI ");
     Serial.println(rssi);
@@ -101,7 +101,7 @@ void loop() {
     // Display information
     display.clearDisplay();
     display.setCursor(0,0);
-    display.print("LORA RECEIVER");
+    display.print("LORA receiver");
     display.setCursor(0,20);
     display.print("Received packet:");
     display.setCursor(0,30);
